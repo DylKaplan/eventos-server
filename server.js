@@ -1,5 +1,5 @@
 import express from 'express'
-import RouterEventos from './router/eventos.js'
+import Router from './router/router.js'
 
 import config from './config.js'
 import CnxMongoDB from './model/DBMongo.js'
@@ -12,7 +12,7 @@ app.use(express.urlencoded({extended:true}))
 // ----------------------------------
 //     ApiRestful: eventos
 // ----------------------------------
-app.use('/api', new RouterEventos().start())
+app.use('/api', new Router().start())
 
 
 //-----------------------------------

@@ -1,10 +1,13 @@
-const PORT = 8080
+import dotenv from 'dotenv'
 
-const STRCNX = 'mongodb+srv://dylukaplan:ybJQon8e47dLSJas@clustereventos.piplb.mongodb.net/?retryWrites=true&w=majority&appName=ClusterEventos'
-const BASE = 'mibase'
+dotenv.config()
+
+const PORT=process.env.PORT
+const STRCNX=process.env.STRCNX
+const BASE=process.env.BASE
 
 export default {
-    PORT,       // PORT: PORT
+    PORT,
     STRCNX,
     BASE
 }

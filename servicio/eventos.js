@@ -1,6 +1,7 @@
-import { validar } from "./validaciones/eventos.js"
+import { validarEvento } from "./validaciones/eventos.js"
 import ModelMongoDBEventos from "../model/DAOs/eventosMongoDB.js";
-
+import PDFDocument from 'pdfkit';
+import fs from 'fs';
 
 class ServicioEventos {
     constructor() {
@@ -19,8 +20,7 @@ class ServicioEventos {
     }
 
     guardarEvento = async evento => {
-        //validación específica del evento a guardar 
-        const rta = validar(evento)
+        const rta = validarEvento(evento)
         if (rta.result) {
             const eventoGuardado = await this.model.guardarEvento(evento)
             return eventoGuardado
@@ -39,6 +39,31 @@ class ServicioEventos {
         const eventoEliminado = await this.model.borrarEvento(id)
         return eventoEliminado
     }
+
+    generarReporteEventos = async () => {
+        const eventos = await this.model.obtenerEventos();
+
+        if (!eventos || eventos.length === 0) {
+            throw new Error('No hay eventos disponibles para generar el reporte.');
+        }
+
+        const doc = new PDFDocument();
+
+        doc.fontSize(20).text('Reporte de Eventos', { align: 'center' });
+        doc.moveDown();
+
+        eventos.forEach((evento, index) => {
+            doc.fontSize(12).text(`Evento #${index + 1}`);
+            doc.text(`Nombre: ${evento.nombre}`);
+            doc.text(`Lugar: ${evento.lugar}`);
+            doc.text(`Equipamiento: ${evento.equipamiento || 'N/A'}`);
+            doc.text(`Fecha: ${evento.fecha}`);
+            doc.text(`Cantidad de personas: ${evento.cantidad_personas}`);
+            doc.moveDown();
+        });
+
+        return doc;
+    };
 
 }
 

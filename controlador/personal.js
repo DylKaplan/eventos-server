@@ -21,7 +21,6 @@ class ControladorPersonal {
         try {
             const personal = req.body
 
-            //validación genérica del personal a guardar
             if(!Object.keys(personal).length) throw new Error('personal vacío')
 
             const personalGuardado = await this.servicio.guardarPersonal(personal)

@@ -1,19 +1,18 @@
-//https://www.npmjs.com/package/joi
-//https://joi.dev/
-
 import Joi from 'joi'
 
-export const validar = personal => {
-
+export const validarPersonal = (personal) => {
     const personalSchema = Joi.object({
-        nombre: Joi.string().alphanum().required(),
-        precio: Joi.number().min(0).max(1000000).required(),
-        stock: Joi.number().integer().min(0).max(9999).required()
-    })
+        nombre: Joi.string().required(),
+        apellido: Joi.string().required(),
+        dni: Joi.string().length(8).pattern(/^[0-9]+$/).required(),
+        fecha_nacimiento: Joi.date().iso().required(),
+        ocupacion: Joi.string().required(),
+    });
 
-    const { error } = personalSchema.validate(personal)
-    if(error) {
-        return { result: false, error }
+    const { error } = personalSchema.validate(personal);
+    if (error) {
+      return { result: false, error };
     }
-    return { result: true }
-}
+
+    return { result: true };
+};

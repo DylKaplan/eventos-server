@@ -1,4 +1,4 @@
-import { validar } from "./validaciones/personal.js"
+import { validarPersonal } from "./validaciones/personal.js"
 import ModelMongoDBPersonal from "../model/DAOs/personalMongoDB.js";
 
 
@@ -19,8 +19,7 @@ class ServicioPersonal {
     }
 
     guardarPersonal = async personal => {
-        //validación específica del personal a guardar 
-        const rta = validar(personal)
+        const rta = validarPersonal(personal)
         if (rta.result) {
             const personalGuardado = await this.model.guardarPersonal(personal)
             return personalGuardado

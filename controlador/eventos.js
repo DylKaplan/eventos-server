@@ -21,7 +21,6 @@ class ControladorEventos {
         try {
             const evento = req.body
 
-            //validación genérica del evento a guardar
             if(!Object.keys(evento).length) throw new Error('evento vacío')
 
             const eventoGuardado = await this.servicio.guardarEvento(evento)
@@ -44,6 +43,19 @@ class ControladorEventos {
         const eventoEliminado = await this.servicio.borrarEvento(id)
         res.json(eventoEliminado)
     }
+
+    generarReporteEventos = async (req, res) => {
+        try {
+            const pdfStream = await this.servicio.generarReporteEventos();
+            res.setHeader('Content-Type', 'application/pdf');
+            res.setHeader('Content-Disposition', 'attachment; filename=reporte_eventos.pdf');
+            pdfStream.pipe(res);
+            pdfStream.end();
+        } catch (error) {
+            console.error('Error al generar el reporte PDF:', error);
+            res.status(500).json({ mensaje: 'Error al generar el reporte PDF' });
+        }
+    };
 
 }
 

@@ -1,9 +1,3 @@
-//https://www.npmjs.com/package/mongodb
-
-//https://www.npmjs.com/package/mongoose
-//https://mongoosejs.com/
-
-
 import { MongoClient } from 'mongodb'
 import config from '../config.js'
 

@@ -12,7 +12,6 @@ class ModelMongoDBEventos {
 
     obtenerEvento = async id => {
         if(!CnxMongoDB.connectionOk) throw Error('ERROR CNX BASE DE DATOS')
-        //const evento = await CnxMongoDB.db.collection('eventos').findOne({_id: new ObjectId(id)})
         const evento = await CnxMongoDB.db.collection('eventos').findOne({_id: ObjectId.createFromHexString(id)})
         return evento
     }

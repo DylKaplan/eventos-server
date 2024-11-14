@@ -12,7 +12,6 @@ class ModelMongoDBPersonal {
 
     obtenerPersona = async id => {
         if(!CnxMongoDB.connectionOk) throw Error('ERROR CNX BASE DE DATOS')
-        //const personal = await CnxMongoDB.db.collection('personal').findOne({_id: new ObjectId(id)})
         const persona = await CnxMongoDB.db.collection('personal').findOne({_id: ObjectId.createFromHexString(id)})
         return persona
     }
