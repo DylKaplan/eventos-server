@@ -32,10 +32,15 @@ class ControladorEventos {
     }
 
     actualizarEvento = async (req,res) => {
-        const { id } = req.params
-        const evento = req.body
-        const eventoActualizado = await this.servicio.actualizarEvento(id, evento)
-        res.json(eventoActualizado)
+        try {
+            const { id } = req.params
+            const evento = req.body
+            const eventoActualizado = await this.servicio.actualizarEvento(id, evento)
+            res.json(eventoActualizado)
+        }
+        catch(error) {
+            res.status(500).json({error: error.message})
+        }
     }
 
     borrarEvento = async (req,res) => {

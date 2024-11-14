@@ -9,16 +9,12 @@ class ServicioUsuario {
     loginUsuario = async (user, password) => {
         const loginData = { user, password };
 
-        console.log("Intentando iniciar sesión con usuario:", loginData.user);
-
         const rta = validarLogin(loginData);
         if (!rta.result) {
             throw rta.error;
         }
 
         const usuario = await this.model.obtenerUsuario(loginData.user);
-
-        console.log("Usuario encontrado en la base de datos:", usuario);
 
         if (!usuario) {
             throw new Error("Usuario no encontrado");
@@ -39,7 +35,7 @@ class ServicioUsuario {
         }
 
         const usuarioGuardado = await this.model.guardarUsuario(usuarioData);
-        return usuarioGuardado;
+        return { user: usuarioGuardado.user };
     };
 }
 

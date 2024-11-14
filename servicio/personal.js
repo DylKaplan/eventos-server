@@ -30,8 +30,14 @@ class ServicioPersonal {
     }
 
     actualizarPersonal = async (id, personal) => {
-        const personalActualizado = await this.model.actualizarPersonal(id, personal)
-        return personalActualizado
+        const rta = validarPersonal(personal)
+        if (rta.result) {
+            const personalActualizado = await this.model.actualizarPersonal(id, personal)
+            return personalActualizado
+        }
+        else {
+            throw rta.error
+        }
     }
 
     borrarPersonal = async id => {

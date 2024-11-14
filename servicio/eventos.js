@@ -1,7 +1,6 @@
 import { validarEvento } from "./validaciones/eventos.js"
 import ModelMongoDBEventos from "../model/DAOs/eventosMongoDB.js";
 import PDFDocument from 'pdfkit';
-import fs from 'fs';
 
 class ServicioEventos {
     constructor() {
@@ -31,8 +30,14 @@ class ServicioEventos {
     }
 
     actualizarEvento = async (id, evento) => {
-        const eventoActualizado = await this.model.actualizarEvento(id, evento)
-        return eventoActualizado
+        const rta = validarEvento(evento)
+        if (rta.result) {
+            const eventoActualizado = await this.model.actualizarEvento(id, evento)
+            return eventoActualizado
+        }
+        else {
+            throw rta.error
+        }
     }
 
     borrarEvento = async id => {

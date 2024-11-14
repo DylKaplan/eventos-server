@@ -32,10 +32,15 @@ class ControladorPersonal {
     }
 
     actualizarPersonal = async (req,res) => {
-        const { id } = req.params
-        const personal = req.body
-        const personalActualizado = await this.servicio.actualizarPersonal(id, personal)
-        res.json(personalActualizado)
+        try {
+            const { id } = req.params
+            const personal = req.body
+            const personalActualizado = await this.servicio.actualizarPersonal(id, personal)
+            res.json(personalActualizado)
+        }
+        catch(error) {
+            res.status(500).json({error: error.message})
+        }
     }
 
     borrarPersonal = async (req,res) => {

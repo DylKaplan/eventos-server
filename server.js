@@ -3,8 +3,11 @@ import Router from './router/router.js'
 
 import config from './config.js'
 import CnxMongoDB from './model/DBMongo.js'
+import cors from 'cors';
 
 const app = express()
+
+app.use(cors());
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
