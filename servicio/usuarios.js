@@ -1,5 +1,9 @@
 import { validarLogin, validarRegistro } from "./validaciones/usuarios.js";
 import ModelMongoDBUsuarios from "../model/DAOs/usuariosMongoDB.js";
+import dotenv from 'dotenv';
+import jwt from 'jsonwebtoken';
+
+dotenv.config();
 
 class ServicioUsuario {
     constructor() {
@@ -25,7 +29,9 @@ class ServicioUsuario {
             throw new Error("Contraseña incorrecta");
         }
 
-        return { exito: true };
+        const token = jwt.sign({ user: usuario }, process.env.JWT_SECRET, { expiresIn: '15m' });
+
+        return { exito: true, token: token };
     };
 
     registrarUsuario = async (usuarioData) => {
@@ -36,6 +42,22 @@ class ServicioUsuario {
 
         const usuarioGuardado = await this.model.guardarUsuario(usuarioData);
         return { user: usuarioGuardado.user };
+    };
+
+    validarToken = async (token) => {
+        if (!token) {
+            throw new Error('Token no proporcionado');
+        }
+
+        try {
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            return { user: decoded.user };
+        } catch (err) {
+            if (err.name === 'TokenExpiredError') {
+                throw new Error('Token expirado');
+            }
+            throw new Error('Token inválido o expirado');
+        }
     };
 }
 

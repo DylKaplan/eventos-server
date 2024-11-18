@@ -26,6 +26,7 @@ class Router {
 
         router.post('/usuario/login', this.controladorUsuarios.iniciarSesion)
         router.post('/usuario/registrar', this.controladorUsuarios.registrarUsuario)
+        router.get('/usuario/validarToken', this.controladorUsuarios.validarToken);
 
         return router
     }
