@@ -62,7 +62,7 @@ class ServicioEventos {
             doc.text(`Nombre: ${evento.nombre}`);
             doc.text(`Lugar: ${evento.lugar}`);
             doc.text(`Equipamiento: ${evento.equipamiento || 'N/A'}`);
-            doc.text(`Fecha: ${evento.fecha}`);
+            doc.text(`Fecha: ${new Date(evento.fecha).toLocaleDateString('es-ES')}`);
             doc.text(`Cantidad de personas: ${evento.cantidad_personas}`);
             doc.moveDown();
         });
